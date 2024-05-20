@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.learning.chatapp
+Bundle-Version: 1.0.0
+Bundle-Name: Chat Bundle
+Bundle-Description: This is an example OSGi bundle.
+Bundle-Vendor: Example Company
+Export-Package: com.learning.chatapp;version="1.0.0"

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CLI Interface</title>
+</head>
+<body>
+<h1>CLI Interface</h1>
+<input type="text" id="command" placeholder="Enter command">
+<button onclick="sendCommand()">Submit</button>
+<div id="output"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/response', function (response) {
+                showResponse(JSON.parse(response.body));
+            });
+        });
+    }
+
+    function sendCommand() {
+        var command = document.getElementById('command').value;
+        stompClient.send("/app/command", {}, command);
+    }
+
+    function showResponse(response) {
+        var outputDiv = document.createElement('div');
+        outputDiv.textContent = response.toString();
+        document.body.appendChild(outputDiv);
+    }
+
+    connect();
+</script>
+</body>
+</html>

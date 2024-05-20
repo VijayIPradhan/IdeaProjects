@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.shell'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springShellVersion', "3.2.4")
+}
+
+dependencies {
+    implementation 'org.springframework.shell:spring-shell-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'org.springframework.experimental', name: 'spring-native', version: '0.12.2'
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.shell:spring-shell-dependencies:${springShellVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
